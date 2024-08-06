@@ -1,6 +1,7 @@
 import asyncio
 import os
 
+from database_api.interfaces import init_questions
 from database_api.models import Base, engine
 from dotenv import load_dotenv
 from loguru import logger
@@ -21,6 +22,9 @@ async def start_app():
 
     try:
         Base.metadata.create_all(engine)
+
+        # init_questions()
+
         dp = Dispatcher()
         bot = Bot(TOKEN)
 

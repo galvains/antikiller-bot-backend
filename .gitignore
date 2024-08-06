@@ -4,3 +4,4 @@ venv
 debug.log
 __pycache__
 data
+.DS_Store

@@ -10,11 +10,9 @@ async def start_bot(message: Message):
 
 
 async def show_start(message: Union[Message, CallbackQuery]):
-    init_user(oauth_id=message.from_user.id, username=message.from_user.username)
+    init_user(data=message.from_user.__dict__)
     markup = await show_start_game_button()
 
     if isinstance(message, Message):
-        await message.answer(text="Welcome to antikiller!", reply_markup=markup)
-    # elif isinstance(message, CallbackQuery):
-    #     call = message
-    #     await call.message.edit_text(text="Welcome to antikiller!", reply_markup=markup)
+        await message.answer(text=f"Welcome to antikiller!\n Your username: {message.from_user.__dict__}",
+                             reply_markup=markup)
