@@ -5,9 +5,6 @@ app = Flask("quiz-tournament-registration")
 app.secret_key = os.getenv('SECRET_KEY')
 
 
-# Base.metadata.create_all(engine)
-
-
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),

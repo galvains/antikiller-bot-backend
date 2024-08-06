@@ -3,3 +3,4 @@ venv
 .idea
 debug.log
 __pycache__
+data

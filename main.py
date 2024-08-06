@@ -1,24 +1,27 @@
 import asyncio
 import os
-from loguru import logger
+
+from database_api.models import Base, engine
 from dotenv import load_dotenv
+from loguru import logger
+
+from telegram_bot.handlers.users.base_handlers import show_start
 
 from aiogram.filters import CommandStart
-from aiogram import Dispatcher
-
-from handlers.users.base_handlers import *
+from aiogram import Dispatcher, Bot
 
 load_dotenv()
 
-logger.add('../debug.log', format='{time} | {level} | {message}', level='INFO',
+logger.add('debug.log', format='{time} | {level} | {message}', level='INFO',
            rotation='20 mb', compression='zip')
-
 TOKEN = os.getenv('BOT_TOKEN')
-dp = Dispatcher()
 
 
-async def main() -> None:
+async def start_app():
+
     try:
+        Base.metadata.create_all(engine)
+        dp = Dispatcher()
         bot = Bot(TOKEN)
 
         dp.message.register(show_start, CommandStart())
@@ -32,4 +35,4 @@ async def main() -> None:
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    asyncio.run(start_app())

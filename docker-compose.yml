@@ -1,0 +1,37 @@
+services:
+  application:
+    build:
+      context: .
+    ports:
+      - 5001:5000
+    volumes:
+      - ./backend:/backend
+      - ./telegram_bot:/telegram_bot
+    depends_on:
+      database:
+        condition: "service_healthy"
+    env_file:
+      - .env
+    networks:
+      default:
+      internal:
+
+
+  database:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    ports:
+      - 5433:5432
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 2s
+      timeout: 10s
+      retries: 3
+networks:
+  default:
+  internal:
+    internal: true
