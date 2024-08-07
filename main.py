@@ -7,7 +7,7 @@ from database_api.models import Base, engine
 from dotenv import load_dotenv
 from loguru import logger
 
-from telegram_bot.handlers.users.base_handlers import show_start, test
+from telegram_bot.handlers.users.base_handlers import show_start
 
 from aiogram.filters import CommandStart
 from aiogram import Dispatcher, Bot
@@ -26,7 +26,6 @@ async def start_app():
 
         dp = Dispatcher()
         bot = Bot(TOKEN)
-        app.run(port=5000)
 
         dp.message.register(show_start, CommandStart())
 
@@ -39,4 +38,5 @@ async def start_app():
 
 
 if __name__ == '__main__':
-    asyncio.run(start_app())
+    app.run(debug=True, host='0.0.0.0')
+    # asyncio.run(start_app())

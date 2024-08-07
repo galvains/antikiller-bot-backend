@@ -152,3 +152,17 @@ def append_solved_user(my_telegram_id: int, executor_id: int):
 
         except Exception as e:
             session.rollback()
+
+
+def select_all_users() -> list:
+    session_factory = sessionmaker(bind=engine)
+
+    with session_factory() as session:
+        try:
+            all_users = session.query(Users).all()
+
+            all_users_dict = [user.to_dict() for user in all_users]
+            return all_users_dict
+
+        except Exception as e:
+            session.rollback()

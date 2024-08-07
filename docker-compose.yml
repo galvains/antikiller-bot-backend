@@ -2,18 +2,16 @@ services:
   application:
     image: python:3
     ports:
-      - "5001:5000"
+      - "5002:5000"
     volumes:
       - ./:/opt
     working_dir: /opt
+    entrypoint: ./entrypoint.sh
     depends_on:
       database:
         condition: service_healthy
     env_file:
       - .env
-    command: >
-      sh -c "pip install --upgrade pip && pip install --root-user-action=ignore -r requirements.txt && python main.py"
-
 
 
   database:

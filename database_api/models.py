@@ -1,7 +1,6 @@
 import os
 import datetime
 
-
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, ARRAY, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -27,6 +26,13 @@ class Users(Base):
     def __repr__(self):
         return f"ID: {self.telegram_id}"
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'score': self.score
+        }
+
 
 class Tasks(Base):
     __tablename__ = 'tasks'
@@ -38,6 +44,12 @@ class Tasks(Base):
 
     def __repr__(self):
         return f"{self.value} | USERNAME: {self.name_question}"
+
+    def to_dict(self):
+        return {
+            'name_question': self.name_question,
+            'description': self.description
+        }
 
 
 class Solved(Base):
