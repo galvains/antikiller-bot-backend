@@ -1,23 +1,20 @@
-version: '3'
-
 services:
   application:
-    build:
-      context: .
+    image: python:3
     ports:
       - "5001:5000"
-#    volumes:
-#      - ./:/opt
+    volumes:
+      - ./:/opt
+    working_dir: /opt
     depends_on:
       database:
         condition: service_healthy
     env_file:
       - .env
-#    command:
-#      pip install -r /opt/requirements.txt && python /opt/main.py
-    networks:
-      - default
-      - internal
+    command: >
+      sh -c "pip install --upgrade pip && pip install --root-user-action=ignore -r requirements.txt && python main.py"
+
+
 
   database:
     image: postgres:16-alpine
@@ -29,15 +26,7 @@ services:
     env_file:
       - .env
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 2s
       timeout: 10s
       retries: 3
-    networks:
-      - default
-      - internal
-
-networks:
-  default:
-  internal:
-    internal: true

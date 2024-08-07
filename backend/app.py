@@ -1,7 +1,7 @@
 import os
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, jsonify
 
-app = Flask("quiz-tournament-registration")
+app = Flask("antikiller")
 app.secret_key = os.getenv('SECRET_KEY')
 
 
@@ -11,6 +11,7 @@ def favicon():
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
-@app.route('/', methods=['GET', 'POST'])
-def home():
-    return render_template('home.html', message=f'ttt')
+@app.route('/', methods=['GET'])
+def greeting():
+    return render_template('index.html')
+    # return jsonify({"message": "Hello from Flask!"})
